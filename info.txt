@@ -1,0 +1,11 @@
+{
+	"Name": "Cookie Taster",
+	"ID": "cookie taster",
+	"Author": "Kerzyte",
+	"Description": "A mod that tastes cookies for you!",
+	"ModVersion": "0.0.1",
+	"GameVersion": 2.04,
+	"Date": "2021-09-06",
+	"Dependencies": [],
+	"Disabled": 1
+}
