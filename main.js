@@ -3,6 +3,11 @@ Game.registerMod("cookie taster",{
 		Game.Notify("Cookie Taster loaded","",[16,5]);
 		Game.Win("Third-party")
 
+		function calcBank() {
+			var bank = Game.shimmerTypes.golden.minTime <= 2250 && Game.Has("Get lucky") ? Game.cookiesPsRaw*60*15/.15*7 : Game.cookiesPsRaw*60*15/.15;
+			bank > Game.cookies ? document.getElementById("cookies").style.color = "#f66" : document.getElementById("cookies").style.removeProperty("color");
+		}
+
 		function calcEff() {
 			buildingEff = [];
 
@@ -17,6 +22,7 @@ Game.registerMod("cookie taster",{
 		}
 
 		function loopItems() {
+			calcBank();
 			calcEff();
 		}
 
