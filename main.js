@@ -27,9 +27,11 @@ Game.registerMod("cookie taster",{
 
 		function calcUpgradeCPS() {
 			for (i=0; i<Game.UpgradesInStore.length; i++) {
-				document.getElementById("upgrade"+i).style.removeProperty("backgroundColor");
+				document.getElementById("upgrade"+i).style.removeProperty("background-color");
 				if (Game.UpgradesInStore[i].pool == "cookie") {
-					upgradeEff[i] = Game.UpgradesInStore[i].basePrice / (Game.cookiesPsRaw * Game.UpgradesInStore[i].power / 100);
+					upgradeEff[i] = Game.UpgradesInStore[i].basePrice / (Game.cookiesPs * Game.UpgradesInStore[i].power / 100);
+				} else if (Game.UpgradesInStore[i].buildingTie1) {
+					upgradeEff[i] = Game.UpgradesInStore[i].basePrice / (Game.UpgradesInStore[i].buildingTie1.storedTotalCps * Game.globalCpsMult);
 				} else {
 					upgradeEff[i] = Infinity;
 				}
