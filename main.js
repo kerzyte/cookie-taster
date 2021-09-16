@@ -29,9 +29,32 @@ Game.registerMod("cookie taster",{
 			for (i=0; i<Game.UpgradesInStore.length; i++) {
 				document.getElementById("upgrade"+i).style.removeProperty("background-color");
 				if (Game.UpgradesInStore[i].pool == "cookie") {
-					upgradeEff[i] = Game.UpgradesInStore[i].basePrice / (Game.cookiesPs * Game.UpgradesInStore[i].power / 100);
+					if (Game.UpgradesInStore[i].unlockAt.season == "valentines") {
+						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.UpgradesInStore[i].power() / 100);
+					} else {
+						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.UpgradesInStore[i].power / 100);
+					}
 				} else if (Game.UpgradesInStore[i].buildingTie1) {
-					upgradeEff[i] = Game.UpgradesInStore[i].basePrice / (Game.UpgradesInStore[i].buildingTie1.storedTotalCps * Game.globalCpsMult);
+					upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.UpgradesInStore[i].buildingTie1.storedTotalCps * Game.globalCpsMult);
+				} else if (Game.UpgradesInStore[i].kitten) {
+					switch (Game.UpgradesInStore[i].tier) {
+						case 1: mult = .1; break;
+						case 2: mult = .125; break;
+						case 3: mult = .15; break;
+						case 4: mult = .175; break;
+						case 5: mult = .2; break;
+						case 6: mult = .2; break;
+						case 7: mult = .2; break;
+						case 8: mult = .2; break;
+						case 9: mult = .2; break;
+						case 10: mult = .175; break;
+						case 11: mult = .15; break;
+						case 12: mult = .125; break;
+						case 13: mult = .115; break;
+						case "fortune": mult = .05; break;
+						default: mult = 0;
+					}
+					upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.milkProgress * mult);
 				} else {
 					upgradeEff[i] = Infinity;
 				}
@@ -47,7 +70,7 @@ Game.registerMod("cookie taster",{
 			} else {
 				if (document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff)))) {
 					document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff))).style.backgroundColor = "#6f6";
-					recommendedCost = Game.UpgradesInStore[upgradeEff.indexOf(Math.min.apply(null, upgradeEff))].basePrice;
+					recommendedCost = Game.UpgradesInStore[upgradeEff.indexOf(Math.min.apply(null, upgradeEff))].getPrice();
 				}
 			}
 		}
