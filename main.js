@@ -26,6 +26,7 @@ Game.registerMod("cookie taster",{
 		}
 
 		function calcUpgradeCPS() {
+			upgradeEff = [];
 			for (i=0; i<Game.UpgradesInStore.length; i++) {
 				document.getElementById("upgrade"+i).style.removeProperty("background-color");
 				if (Game.UpgradesInStore[i].pool == "cookie") {
@@ -55,6 +56,12 @@ Game.registerMod("cookie taster",{
 						default: mult = 0;
 					}
 					upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.milkProgress * mult);
+				} else if (Game.UpgradesInStore[i].icon[1] == 12 && Game.UpgradesInStore[i].icon[0] <= 12) {
+					if(Game.UpgradesInStore[i].icon[0]) {
+						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs / 100);
+					} else {
+						upgradeEff[i] = Infinity;
+					}
 				} else {
 					upgradeEff[i] = Infinity;
 				}
