@@ -29,41 +29,69 @@ Game.registerMod("cookie taster",{
 			upgradeEff = [];
 			for (i=0; i<Game.UpgradesInStore.length; i++) {
 				document.getElementById("upgrade"+i).style.removeProperty("background-color");
-				if (Game.UpgradesInStore[i].pool == "cookie") {
-					if (Game.UpgradesInStore[i].unlockAt.season == "valentines") {
-						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.UpgradesInStore[i].power() / 100);
-					} else {
-						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.UpgradesInStore[i].power / 100);
-					}
-				} else if (Game.UpgradesInStore[i].buildingTie1) {
-					upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.UpgradesInStore[i].buildingTie1.storedTotalCps * Game.globalCpsMult);
-				} else if (Game.UpgradesInStore[i].kitten) {
-					switch (Game.UpgradesInStore[i].tier) {
-						case 1: mult = .1; break;
-						case 2: mult = .125; break;
-						case 3: mult = .15; break;
-						case 4: mult = .175; break;
-						case 5: mult = .2; break;
-						case 6: mult = .2; break;
-						case 7: mult = .2; break;
-						case 8: mult = .2; break;
-						case 9: mult = .2; break;
-						case 10: mult = .175; break;
-						case 11: mult = .15; break;
-						case 12: mult = .125; break;
-						case 13: mult = .115; break;
-						case "fortune": mult = .05; break;
-						default: mult = 0;
-					}
-					upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs * Game.milkProgress * mult);
-				} else if (Game.UpgradesInStore[i].icon[1] == 12 && Game.UpgradesInStore[i].icon[0] <= 12) {
-					if(Game.UpgradesInStore[i].icon[0]) {
-						upgradeEff[i] = Game.UpgradesInStore[i].getPrice() / (Game.cookiesPs / 100);
-					} else {
-						upgradeEff[i] = Infinity;
-					}
-				} else {
-					upgradeEff[i] = Infinity;
+				var cost = Game.UpgradesInStore[i].getPrice();
+				switch (Game.UpgradesInStore[i].id) {
+					case  31:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .1);
+						break;
+					case  32: case 494:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .125);
+						break;
+					case  54: case 462:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .15);
+						break;
+					case 108: case 442:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .175);
+						break;
+					case 169: case 170: case 171: case 172: case 173: case 174: case 645:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.UpgradesInStore[i].power() * .01);
+						break;
+					case 187: case 320: case 321: case 322: case 425: 
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .2);
+						break;
+					case 210: case 211: case 212: case 213: case 214: case 215: case 216: case 217: case 218: case 219: case 220: case 221:
+						upgradeEff[i] = cost / (Game.cookiesPs * .01);
+						break;
+//					case 228:
+					case 229:
+						upgradeEff[i] = cost / (9 * Game.globalCpsMult);
+						break;
+					case 613:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .115);
+						break;
+					case 631:
+						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .05);
+						break;
+					case 639:
+						upgradeEff[i] = cost / (Game.cookiesPs * .07);
+						break;
+					default:
+						if (Game.UpgradesInStore[i].pool == "cookie") {
+							if (Game.UpgradesInStore[i].unlockAt.season == "valentines") {
+								upgradeEff[i] = cost / (Game.cookiesPs * Game.UpgradesInStore[i].power() * .01);
+							} else {
+								upgradeEff[i] = cost / (Game.cookiesPs * Game.UpgradesInStore[i].power * .01);
+							}
+						} else if (Game.UpgradesInStore[i].buildingTie) {
+							if (Game.UpgradesInStore[i].tier == "fortune") {
+								upgradeEff[i] = cost / (Game.UpgradesInStore[i].buildingTie.storedTotalCps * Game.globalCpsMult * .07);
+							} else if (Game.UpgradesInStore[i].buildingTie == Game.UpgradesInStore[i].buildingTie1) {
+								upgradeEff[i] = cost / (Game.UpgradesInStore[i].buildingTie.storedTotalCps * Game.globalCpsMult);
+							} else if (!Game.UpgradesInStore[i].buildingTie1) {
+								var building = Game.UpgradesInStore[i].buildingTie;
+								var d_cps = building.storedTotalCps * .01 * Game.ObjectsById[1].amount / (building.id - 1);
+								upgradeEff[i] = cost / ((d_cps + Game.ObjectsById[1].storedTotalCps) * Game.globalCpsMult);
+							} else {
+								upgradeEff[i] = Infinity;
+							}
+						} else if (Game.UpgradesInStore[i].buildingTie2) {
+							var buildings = [undefined, Game.UpgradesInStore[i].buildingTie1, Game.UpgradesInStore[i].buildingTie2];
+							var d_cps1 = buildings[1].storedTotalCps * .05 * buildings[2].amount;
+							var d_cps2 = buildings[2].storedTotalCps * .001 * buildings[1].amount;
+							upgradeEff[i] = cost / ((d_cps1 + d_cps2) * Game.globalCpsMult);
+						} else {
+							upgradeEff[i] = Infinity;
+						}
 				}
 			}
 		}
