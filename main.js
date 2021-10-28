@@ -31,17 +31,56 @@ Game.registerMod("cookie taster",{
 				document.getElementById("upgrade"+i).style.removeProperty("background-color");
 				var cost = Game.UpgradesInStore[i].getPrice();
 				switch (Game.UpgradesInStore[i].id) {
-					case  31:
+					case 0: case 1: case 2:
+						upgradeEff[i] = cost / (Game.ObjectsById[0].storedTotalCps * Game.globalCpsMult);
+						break;
+//					case 3:
+//						upgradeEff[i] = cost / (Game.
+//						break;
+					case 31:
 						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .1);
 						break;
-					case  32: case 494:
+					case 32: case 494:
 						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .125);
 						break;
-					case  54: case 462:
+					case 54: case 462:
 						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .15);
 						break;
+					case 64:
+						upgradeEff[i] = cost / (Game.ObjectsById[1].storedTotalCps * 3 * Game.globalCpsMult);
+						break;
+					case 65:
+						upgradeEff[i] = cost / (Game.cookiesPs * .01);
+						break;
+					case 66:
+						upgradeEff[i] = cost / (Game.cookiesPs * .02);
+						break;
+					case 67:
+						upgradeEff[i] = cost / (Game.ObjectsById[1].storedTotalCps * Game.globalCpsMult);
+						break;
+					case 68:
+						upgradeEff[i] = cost / (Game.cookiesPs * .03);
+						break;
+//					case 69:
+//						upgradeEff[i] = cost / (Game.ObjectsById[1].storedTotalCps * Game.ObjectsById[1].amount *.02)
+//						break;
+					case 70:
+						upgradeEff[i] = cost / (Game.cookiesPs * .04);
+						break;
+//					case 71:
+//						
+//						break;
+					case 72:
+						upgradeEff[i] = cost / (Game.cookiesPs * .05);
+						break;
+//					case 73:
+//						
+//						break;
 					case 108: case 442:
 						upgradeEff[i] = cost / (Game.cookiesPs * Game.milkProgress * .175);
+						break;
+					case 152: case 324:
+						upgradeEff[i] = cost / Infinity;
 						break;
 					case 169: case 170: case 171: case 172: case 173: case 174: case 645:
 						upgradeEff[i] = cost / (Game.cookiesPs * Game.UpgradesInStore[i].power() * .01);

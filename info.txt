@@ -3,9 +3,9 @@
 	"ID": "cookie taster",
 	"Author": "Kerzyte",
 	"Description": "A mod that tastes cookies for you!",
-	"ModVersion": "0.0.7",
-	"GameVersion": 2.04,
-	"Date": "2021-09-29",
+	"ModVersion": "0.0.8",
+	"GameVersion": 2.031,
+	"Date": "2021-10-28",
 	"Dependencies": [],
 	"Disabled": 1,
 	"AllowSteamAchievs": 1
