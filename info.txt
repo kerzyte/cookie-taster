@@ -2,10 +2,10 @@
 	"Name": "Cookie Taster",
 	"ID": "cookie taster",
 	"Author": "Kerzyte",
-	"Description": "A mod that tastes cookies for you!",
-	"ModVersion": "0.0.9",
+	"Description": "A helpful girlscout that recommends the best cookies!",
+	"ModVersion": "0.1.0",
 	"GameVersion": 2.031,
-	"Date": "2021-10-29",
+	"Date": "2021-12-21",
 	"Dependencies": [],
 	"Disabled": 1,
 	"AllowSteamAchievs": 1

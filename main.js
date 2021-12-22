@@ -1,7 +1,7 @@
 Game.registerMod("cookie taster",{
 	init:function(){
-		Game.Notify("Cookie Taster loaded","",[16,5]);
-		Game.Win("Third-party");
+//		Game.Notify("Cookie Taster loaded","",[16,5]);
+//		Game.Win("Third-party");
 
 		var buildingEff = [];
 		var recommendedCost;
@@ -11,7 +11,7 @@ Game.registerMod("cookie taster",{
 			var bank = Game.shimmerTypes.golden.minTime <= 2250 && Game.Has("Get lucky") ? Game.cookiesPsRaw*60*15/.15*7 : Game.cookiesPsRaw*60*15/.15;
 			if (Game.cookies < bank) {
 				document.getElementById("cookies").style.color = "#f66";
-			} else if (Game.cookies > bank + recommendedCost) {
+			} else if (Game.cookies >= bank + recommendedCost) {
 				document.getElementById("cookies").style.color = "#6f6";
 			} else {
 				document.getElementById("cookies").style.removeProperty("color");
@@ -29,6 +29,10 @@ Game.registerMod("cookie taster",{
 			upgradeEff = [];
 			for (i=0; i<Game.UpgradesInStore.length; i++) {
 				document.getElementById("upgrade"+i).style.removeProperty("background-color");
+				if (Game.vault.includes(Game.UpgradesInStore[i].id)) {
+					upgradeEff[i] = Infinity;
+					continue;
+				}
 				var cost = Game.UpgradesInStore[i].getPrice();
 				var denom = 4;
 				switch (Game.UpgradesInStore[i].id) {
@@ -266,14 +270,12 @@ Game.registerMod("cookie taster",{
 		function colorRecommended() {
 			calcBuildingCPS();
 			calcUpgradeCPS();
-			if (Math.min.apply(null, buildingEff) < Math.min.apply(null, upgradeEff)) {
+			if (Math.min.apply(null, upgradeEff) < Math.min.apply(null, buildingEff)) {
+				document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff))).style.backgroundColor = "#6f6";
+				recommendedCost = Game.UpgradesInStore[upgradeEff.indexOf(Math.min.apply(null, upgradeEff))].getPrice();
+			} else {
 				document.getElementById("productName"+buildingEff.indexOf(Math.min.apply(null, buildingEff))).style.color = "#6f6";
 				recommendedCost = Game.ObjectsById[buildingEff.indexOf(Math.min.apply(null, buildingEff))].price;
-			} else {
-				if (document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff)))) {
-					document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff))).style.backgroundColor = "#6f6";
-					recommendedCost = Game.UpgradesInStore[upgradeEff.indexOf(Math.min.apply(null, upgradeEff))].getPrice();
-				}
 			}
 		}
 
@@ -283,6 +285,6 @@ Game.registerMod("cookie taster",{
 		}
 
 		drawLoop();
-		setInterval(drawLoop, 100);
+		setInterval(drawLoop, 10);
 	},
 });
