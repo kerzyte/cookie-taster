@@ -21,7 +21,8 @@ Game.registerMod("cookie taster",{
 		function calcBuildingCPS() {
 			for (i=0; i<Game.ObjectsById.length; i++) {
 				document.getElementById("productName"+i).style.removeProperty("color");
-				buildingEff[i] = Game.ObjectsById[i].price / (Game.ObjectsById[i].storedCps * Game.globalCpsMult);
+				var cost = Game.ObjectsById[i].getSumPrice(Game.buyBulk);
+				buildingEff[i] = cost / (Game.ObjectsById[i].storedCps * Game.globalCpsMult * Math.max(Game.buyBulk, 1));
 			}
 		}
 
@@ -267,19 +268,30 @@ Game.registerMod("cookie taster",{
 			}
 		}
 
+		function colorAmount() {
+			document.getElementById("storeBulk1").style.removeProperty("color");
+			document.getElementById("storeBulk10").style.removeProperty("color");
+			if (Game.hasGod && Game.hasGod("order") && Game.BuildingsOwned%10==0) {
+				document.getElementById("storeBulk10").style.color = "#6f6";
+			} else {
+				document.getElementById("storeBulk1").style.color = "#6f6";
+			}
+		}
+
 		function colorRecommended() {
 			calcBuildingCPS();
 			calcUpgradeCPS();
 			if (Math.min.apply(null, upgradeEff) < Math.min.apply(null, buildingEff)) {
 				document.getElementById("upgrade"+upgradeEff.indexOf(Math.min.apply(null, upgradeEff))).style.backgroundColor = "#6f6";
 				recommendedCost = Game.UpgradesInStore[upgradeEff.indexOf(Math.min.apply(null, upgradeEff))].getPrice();
-			} else {
+			} else if (Game.buyMode == 1) {
 				document.getElementById("productName"+buildingEff.indexOf(Math.min.apply(null, buildingEff))).style.color = "#6f6";
-				recommendedCost = Game.ObjectsById[buildingEff.indexOf(Math.min.apply(null, buildingEff))].price;
+				recommendedCost = Game.ObjectsById[buildingEff.indexOf(Math.min.apply(null, buildingEff))].getSumPrice(Game.buyBulk);
 			}
 		}
 
 		function drawLoop() {
+			colorAmount();
 			colorRecommended();
 			calcBank();
 		}
