@@ -3,9 +3,9 @@
 	"ID": "cookie taster",
 	"Author": "Kerzyte",
 	"Description": "A helpful girlscout that recommends the best cookies!",
-	"ModVersion": "0.1.1",
+	"ModVersion": "0.1.2",
 	"GameVersion": 2.031,
-	"Date": "2021-12-25",
+	"Date": "2021-12-29",
 	"Dependencies": [],
 	"Disabled": 1,
 	"AllowSteamAchievs": 1
